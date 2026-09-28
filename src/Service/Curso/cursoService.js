@@ -23,3 +23,15 @@ export async function getUnidadesService(regiao){
 
     return response;
 }
+
+export async function getOfertasService(regiao) {
+    const response = await DBCursos.getOfertas(regiao);
+
+    return response[0];
+}
+
+export async function deleteOfertasService(regiao){
+    const response = await DBCursos.deleteOfertas(regiao);
+
+    return response.insertId;
+}

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getCursoService, getRegioesService, getUnidadesService, postarCursoService } from "../Service/Curso/cursoService.js";
+import { deleteOfertasService, getCursoService, getOfertasService, getRegioesService, getUnidadesService, postarCursoService } from "../Service/Curso/cursoService.js";
 const endpoints = Router();
 
 endpoints.post('/cursos', async (req, resp) => {
@@ -57,8 +57,29 @@ endpoints.get('/unidades/:regiao', async (req, resp) => {
             erro: err.message
         })
     }
+});
+
+endpoints.get('/ofertas', async (req, resp) => {
+    try{
+        const regiao = req.query.regiao;
+        const lista = await getOfertasService(regiao);
+
+        resp.send(lista)
+    }
+    catch(err){
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+});
+
+endpoints.delete('/ofertas/:id', async (req, resp) => {
+    const id = req.params.id;
+    const resposta = await deleteOfertasService(id);
+
+    resp.send({
+        ID: resposta
+    })
 })
-
-
 
 export default endpoints;
