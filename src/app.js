@@ -12,4 +12,4 @@ Rotear(api)
 
 const porta = process.env.PORTA || 5600
 
-api.listen(porta, () => console.log(`API rodando na porta ${porta}`));
+api.listen(porta, "0.0.0.0", () => console.log(`API rodando na porta ${porta}`));
