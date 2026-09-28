@@ -5,3 +5,21 @@ export async function postarCursoService(curso){
 
     return response;
 }
+
+export async function getRegioesService(id_regiao){
+    const response = await DBCursos.getRegioes(id_regiao);
+
+    return response;
+}
+
+export async function getCursoService(){
+    const response = await DBCursos.getCursos();
+
+    return response;
+}
+
+export async function getUnidadesService(regiao){
+    const response = await DBCursos.getUnidades(regiao);
+
+    return response;
+}
