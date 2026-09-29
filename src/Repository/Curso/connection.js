@@ -1,6 +1,6 @@
 import mysql from "mysql2/promise.js";
 
-const con = await mysql.createConnection({
+const con = mysql.createPool({
     user: process.env.USER_DB,
     password: process.env.PWD_BD,
     host: process.env.HOST_DB,
@@ -11,7 +11,11 @@ const con = await mysql.createConnection({
         rejectUnauthorized: false
     },
 
-    typeCast: function(field, next) {
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+
+    typeCast: function (field, next) {
         if (field.type === "TINY" && field.length == 1) {
             return field.string() === "1";
         }
