@@ -23,7 +23,8 @@ export async function postarCurso(curso){
             curso.carga_horaria, 
             curso.modalidade,
             curso.descricao,
-            curso.link_inscricao
+            curso.link_inscricao,
+            curso.imagem
     ]);
 
     return resposta.insertId;
