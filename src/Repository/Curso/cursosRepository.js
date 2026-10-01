@@ -106,6 +106,7 @@ export async function getOfertas(regiao){
             o.modalidade,
             o.descricao AS descricao,
             o.link_inscricao,
+            o.imagem,
 
             i.id_instituicao,
             i.nome AS instituicao,
