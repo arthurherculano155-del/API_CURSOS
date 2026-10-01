@@ -10,9 +10,10 @@ export async function postarCurso(curso){
             carga_horaria,
             modalidade,
             descricao,
-            link_inscricao
+            link_inscricao,
+            imagem
         )
-            values(?, ?, ?, ?, ?, ?, ?, ?)
+            values(?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
 
     const [resposta] = await con.query(command, [
