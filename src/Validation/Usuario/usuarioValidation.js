@@ -12,7 +12,9 @@ export async function getEmailValidation(email){
         throw new Error("Usuário já cadastrado")
 }
 
-export function validarLogin(conta, senhaCorreta){
-    if(conta === null || !senhaCorreta)
-        throw new Error("Email ou senha inválidos.")
+export async function validacaoEmail(email){
+    const user = await DBUsers.getEmail(email);
+
+    if (user != null)
+        throw new Error("Usuário já cadastrado")
 }

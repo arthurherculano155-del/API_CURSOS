@@ -28,6 +28,12 @@ export async function entrarUsuarioService(user){
     return conta;
 }
 
+export async function atualizarCargoService(email){
+    const response = await DBUsers.atualizarCargo(email);
+
+    return response;
+}
+
 export async function getUsuarioService(email){
     const response = DBUsers.getUsuario(email);
 

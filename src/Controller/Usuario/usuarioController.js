@@ -49,4 +49,20 @@ endpoints.get('/usuario', async (req, resp) => {
     }
 })
 
+endpoints.put('/usuario', async (req, resp) => {
+    try {
+        const email = req.body.email;
+        const resposta = await Service.atualizarCargoService(email);
+
+        resp.send({
+            ID: resposta
+        })
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
 export default endpoints;

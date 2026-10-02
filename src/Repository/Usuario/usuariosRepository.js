@@ -27,11 +27,16 @@ export async function getEmail(email){
     return resposta[0];
 }
 
-export async function atualizarCargo(user){
+export async function atualizarCargo(email){
     const command = `
         UPDATE from usuarios
         set cargo = "admin"
+        where email = ?
     `
+
+    const [resposta] = await con.query(command, [email])
+
+    return resposta.insertId;
 }
 
 export async function getUsuario(email){
