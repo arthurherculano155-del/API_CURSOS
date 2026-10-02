@@ -40,9 +40,7 @@ endpoints.get('/usuario', async (req, resp) => {
         const email = req.query.email;
         const resposta = await Service.getUsuarioService(email);
 
-        resp.send({
-            resposta
-        })
+        resp.send(resposta)
     }
     catch (err) {
         resp.status(400).send({
