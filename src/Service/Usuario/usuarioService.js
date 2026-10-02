@@ -35,7 +35,7 @@ export async function atualizarCargoService(email){
 }
 
 export async function getUsuarioService(email){
-    const response = DBUsers.getUsuario(email);
+    const response = await DBUsers.getUsuario(email);
 
     return response;
 }

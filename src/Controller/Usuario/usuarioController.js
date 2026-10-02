@@ -55,7 +55,7 @@ endpoints.put('/usuario', async (req, resp) => {
         const resposta = await Service.atualizarCargoService(email);
 
         resp.send({
-            ID: resposta
+            Linhas_Alteradas: resposta
         })
     }
     catch (err) {
