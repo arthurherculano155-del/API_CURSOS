@@ -30,8 +30,8 @@ export async function getEmail(email){
 export async function atualizarCargo(email){
     const command = `
         UPDATE usuarios
-        set cargo = "admin"
-        where email = ?
+        SET cargo = IF(cargo = 'usuario', 'admin', 'usuario')
+        WHERE id = ?
     `
 
     const [resposta] = await con.query(command, [email.trim().toLowerCase()])
