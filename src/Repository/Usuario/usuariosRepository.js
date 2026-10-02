@@ -31,7 +31,7 @@ export async function atualizarCargo(email){
     const command = `
         UPDATE usuarios
         SET cargo = IF(cargo = 'usuario', 'admin', 'usuario')
-        WHERE id = ?
+        WHERE email = ?
     `
 
     const [resposta] = await con.query(command, [email.trim().toLowerCase()])
