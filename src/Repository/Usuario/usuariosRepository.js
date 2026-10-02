@@ -40,7 +40,7 @@ export async function getUsuario(usuario){
         where email like ?
     `
 
-    const [lista] = await con.query(command, `%${[usuario]}%`);
+    const [lista] = await con.query(command, `%${[email]}%`);
 
     return lista;
 }

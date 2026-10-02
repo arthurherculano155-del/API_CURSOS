@@ -35,10 +35,10 @@ endpoints.post('/usuario/entrar', async (req, resp) => {
     }
 })
 
-endpoints.get('/usuarios', async (req, resp) => {
+endpoints.get('/usuario', async (req, resp) => {
     try {
-        const usuario = req.query.usuario;
-        const resposta = await Service.getUsuarioService(usuario);
+        const email = req.query.email;
+        const resposta = await Service.getUsuarioService(email);
 
         resp.send({
             resposta

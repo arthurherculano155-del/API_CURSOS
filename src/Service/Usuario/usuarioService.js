@@ -28,8 +28,8 @@ export async function entrarUsuarioService(user){
     return conta;
 }
 
-export async function getUsuarioService(usuario){
-    const response = DBUsers.getUsuario(usuario);
+export async function getUsuarioService(email){
+    const response = DBUsers.getUsuario(email);
 
     return response;
 }
