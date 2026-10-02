@@ -33,3 +33,14 @@ export async function atualizarCargo(user){
         set cargo = "admin"
     `
 }
+
+export async function getUsuario(usuario){
+    const command = `
+        select * from usuarios
+        where email like ?
+    `
+
+    const [lista] = await con.query(command, `%${[usuario]}%`);
+
+    return lista;
+}

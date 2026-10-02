@@ -27,3 +27,9 @@ export async function entrarUsuarioService(user){
 
     return conta;
 }
+
+export async function getUsuarioService(usuario){
+    const response = DBUsers.getUsuario(usuario);
+
+    return response;
+}

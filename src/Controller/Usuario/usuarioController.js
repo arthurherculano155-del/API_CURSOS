@@ -35,4 +35,20 @@ endpoints.post('/usuario/entrar', async (req, resp) => {
     }
 })
 
+endpoints.get('/usuarios', async (req, resp) => {
+    try {
+        const usuario = req.query.usuario;
+        const resposta = await Service.getUsuarioService(usuario);
+
+        resp.send({
+            resposta
+        })
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
 export default endpoints;
