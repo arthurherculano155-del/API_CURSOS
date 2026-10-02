@@ -34,7 +34,7 @@ export async function atualizarCargo(user){
     `
 }
 
-export async function getUsuario(usuario){
+export async function getUsuario(email){
     const command = `
         select * from usuarios
         where email like ?
