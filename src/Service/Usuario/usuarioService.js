@@ -21,12 +21,14 @@ export async function cadastrarUsuarioService(user){
 export async function entrarUsuarioService(user){
     const conta = await DBUsers.getEmail(user.email);
 
+    validacao.validarLogin(conta)
+
     const senhaCorreta = await bcrypt.compare(
         user.senha,
         conta.senha
     )
 
-    validacao.validarLogin(conta, senhaCorreta);
+    validacao.validarSenhaLogin(senhaCorreta);
 
     return conta;
 }

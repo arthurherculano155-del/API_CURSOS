@@ -18,3 +18,13 @@ export async function validacaoEmail(email){
     if (user != null)
         throw new Error("Usuário já cadastrado")
 }
+
+export function validarLogin(conta) {
+    if (!conta)
+        throw new Error("Email ou senha incorretos");
+}
+
+export function validarSenhaLogin(senha){
+    if (!senha)
+        throw new Error("Email ou senha incorretos");
+}

@@ -22,18 +22,24 @@ endpoints.post('/usuario/cadastrar', async (req, resp) => {
 endpoints.post('/usuario/entrar', async (req, resp) => {
     try {
         const user = req.body;
+
         const entrar = await Service.entrarUsuarioService(user);
 
         resp.send({
-            resultado: "Login realizado com sucesso!"
-        })
+            resultado: "Login realizado com sucesso!",
+            usuario: {
+                id: entrar.id_usuario,
+                nome: entrar.nome,
+                email: entrar.email
+            }
+        });
     }
     catch (err) {
         resp.status(400).send({
             erro: err.message
-        })
+        });
     }
-})
+});
 
 endpoints.get('/usuario', async (req, resp) => {
     try {
