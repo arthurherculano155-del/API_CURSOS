@@ -6,7 +6,11 @@ import * as validacao from '../../Validation/Usuario/usuarioValidation.js';
 export async function cadastrarUsuarioService(user){
     validacao.validarEmail(user.email);
     await validacao.getEmailValidation(user.email);
-    
+
+    const partes = user.nome.split(" ");
+
+    user.nome = `${partes[0]} ${partes[1]}`
+
     user.senha = await bcrypt.hash(user.senha, 10);
 
     const response = await DBUsers.cadastrarUsuario(user);
