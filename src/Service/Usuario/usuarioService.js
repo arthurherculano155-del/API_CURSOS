@@ -9,7 +9,9 @@ export async function cadastrarUsuarioService(user){
 
     const partes = user.nome.split(" ");
 
-    user.nome = `${partes[0]} ${partes[1]}`
+    user.primeiro_nome = partes[0];
+
+    user.nome = `${partes[0]} ${partes[1]}`;
 
     user.senha = await bcrypt.hash(user.senha, 10);
 

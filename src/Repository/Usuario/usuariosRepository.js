@@ -2,15 +2,16 @@ import { con } from './connection.js';
 
 export async function cadastrarUsuario(user){
     const command = `
-        INSERT INTO usuarios(nome, email, senha, cargo)
-        values(?, ?, ?, ?)
+        INSERT INTO usuarios(nome, email, senha, cargo, primeiro_nome)
+        values(?, ?, ?, ?, ?)
     `
 
     const [resposta] = await con.query(command, [
-        user.nome,
+        user.nome.trim(),
         user.email.trim().toLowerCase(),
         user.senha,
-        user.cargo
+        user.cargo,
+        user.primeiro_nome
     ])
 
     return resposta.insertId;

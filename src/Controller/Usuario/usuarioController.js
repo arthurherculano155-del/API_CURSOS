@@ -30,7 +30,8 @@ endpoints.post('/usuario/entrar', async (req, resp) => {
             usuario: {
                 id: entrar.id_usuario,
                 nome: entrar.nome,
-                email: entrar.email
+                email: entrar.email,
+                primeiro_nome: primeiro_nome
             }
         });
     }
