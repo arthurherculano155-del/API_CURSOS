@@ -71,6 +71,22 @@ endpoints.put('/usuario', async (req, resp) => {
             erro: err.message
         })
     }
+});
+
+endpoints.put('/usuario/personalizar', async (req, resp) => {
+    try{
+        const user = req.body;
+        const resposta = await Service.personalizarUsuarioService(user);
+
+        resp.send({
+            Linhas_Alteradas: resposta
+        })
+    }
+    catch(err){
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
 })
 
 export default endpoints;

@@ -46,3 +46,10 @@ export async function getUsuarioService(email){
 
     return response;
 }
+
+export async function personalizarUsuarioService(user){
+    const response = await DBUsers.PersonalizarUsuario(user);
+    validacao.validarEmailExistente(user.email);
+
+    return response;
+}

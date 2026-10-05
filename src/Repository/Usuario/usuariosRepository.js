@@ -44,9 +44,27 @@ export async function getUsuario(email){
     const command = `
         select * from usuarios
         where email like ?
+        order by email asc
     `
 
     const [lista] = await con.query(command, `%${[email]}%`);
 
     return lista;
+}
+
+export async function PersonalizarUsuario(user){
+    const command = `
+        UPDATE usuarios
+        set imagem_url = ?,
+        primeiro_nome = ?
+        where email = ?
+    `
+
+    const [resposta] = await con.query(command, [
+        user.imagem_url,
+        user.primeiro_nome,
+        user.email
+    ])
+
+    return resposta.affectedRows;
 }

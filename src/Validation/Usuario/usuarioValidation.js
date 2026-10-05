@@ -28,3 +28,8 @@ export function validarSenhaLogin(senha){
     if (!senha)
         throw new Error("Email ou senha incorretos");
 }
+
+export function validarEmailExistente(email){
+    if(email === null)
+        throw new Error("Usuário inexistente.");
+}
