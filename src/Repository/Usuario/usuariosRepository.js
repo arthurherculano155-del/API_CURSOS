@@ -44,7 +44,8 @@ export async function getUsuario(email){
     const command = `
         select * from usuarios
         where email like ?
-        order by cargo, email; 
+        order by cargo ASC, 
+        email ASC; 
     `
 
     const [lista] = await con.query(command, `%${[email]}%`);
