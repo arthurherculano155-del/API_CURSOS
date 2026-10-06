@@ -75,7 +75,7 @@ endpoints.put('/usuario', async (req, resp) => {
 });
 
 endpoints.put('/usuario/personalizar', async (req, resp) => {
-    try{
+    try {
         const user = req.body;
         const resposta = await Service.personalizarUsuarioService(user);
 
@@ -83,7 +83,24 @@ endpoints.put('/usuario/personalizar', async (req, resp) => {
             Linhas_Alteradas: resposta
         })
     }
-    catch(err){
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+endpoints.delete('usuario/deletar/:id', async (req, resp) => {
+    try {
+        const id = req.params.id;
+
+        const resposta = await Service.deleteUsuarioService(id);
+
+        resp.send({
+            Linhas_Alteradas: resposta
+        })
+    }
+    catch (err) {
         resp.status(400).send({
             erro: err.message
         })

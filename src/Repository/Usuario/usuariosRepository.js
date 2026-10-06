@@ -44,7 +44,7 @@ export async function getUsuario(email){
     const command = `
         select * from usuarios
         where email like ?
-        order by email asc
+        order by cargo, email; 
     `
 
     const [lista] = await con.query(command, `%${[email]}%`);
@@ -65,6 +65,17 @@ export async function PersonalizarUsuario(user){
         user.primeiro_nome,
         user.email
     ])
+
+    return resposta.affectedRows;
+}
+
+export async function deleteUsuario(id){
+    const command = `
+        delete usuarios
+        where id = ?
+    `
+
+    const [resposta] = await con.query(command, [id]);
 
     return resposta.affectedRows;
 }

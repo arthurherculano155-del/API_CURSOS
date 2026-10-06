@@ -53,3 +53,9 @@ export async function personalizarUsuarioService(user){
 
     return response;
 }
+
+export async function deleteUsuarioService(id){
+    const response = await DBUsers.deleteUsuario(id);
+
+    return response;
+}
