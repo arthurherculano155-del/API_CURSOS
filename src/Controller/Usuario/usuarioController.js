@@ -1,5 +1,6 @@
-import { Router } from 'express'
+import { Router } from 'express';
 import * as Service from '../../Service/Usuario/usuarioService.js';
+import * as middleware from '../../Middleware/autenticar.js';
 
 const endpoints = Router();
 
@@ -34,7 +35,8 @@ endpoints.post('/usuario/entrar', async (req, resp) => {
                 cargo: entrar.cargo,
                 primeiro_nome: entrar.primeiro_nome,
                 imagem_url: entrar.imagem_url
-            }
+            },
+            token: entrar.token
         });
     }
     catch (err) {
@@ -58,7 +60,10 @@ endpoints.get('/usuario', async (req, resp) => {
     }
 })
 
-endpoints.put('/usuario', async (req, resp) => {
+endpoints.put('/usuario', 
+    middleware.autenticar,
+    middleware.apenasAdmin,
+    async (req, resp) => {
     try {
         const email = req.body.email;
         const resposta = await Service.atualizarCargoService(email);
@@ -90,7 +95,10 @@ endpoints.put('/usuario/personalizar', async (req, resp) => {
     }
 })
 
-endpoints.delete('usuario/deletar/:id', async (req, resp) => {
+endpoints.delete('usuario/deletar/:id', 
+    middleware.autenticar,
+    middleware.apenasAdmin,
+    async (req, resp) => {
     try {
         const id = req.params.id;
 

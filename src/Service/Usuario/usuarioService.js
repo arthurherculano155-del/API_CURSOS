@@ -1,9 +1,10 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
 
 import * as DBUsers from '../../Repository/Usuario/usuariosRepository.js'
 import * as validacao from '../../Validation/Usuario/usuarioValidation.js';
 
-export async function cadastrarUsuarioService(user){
+export async function cadastrarUsuarioService(user) {
     validacao.validarEmail(user.email);
     await validacao.getEmailValidation(user.email);
 
@@ -20,41 +21,55 @@ export async function cadastrarUsuarioService(user){
     return response;
 }
 
-export async function entrarUsuarioService(user){
+export async function entrarUsuarioService(user) {
     const conta = await DBUsers.getEmail(user.email);
 
-    validacao.validarLogin(conta)
+    validacao.validarLogin(conta);
 
     const senhaCorreta = await bcrypt.compare(
         user.senha,
         conta.senha
-    )
+    );
 
     validacao.validarSenhaLogin(senhaCorreta);
 
-    return conta;
+    const token = jwt.sign(
+        {
+            id: conta.id_usuario,
+            cargo: conta.cargo
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: "2h"
+        }
+    )
+
+    return ({
+        conta,
+        token
+    });
 }
 
-export async function atualizarCargoService(email){
+export async function atualizarCargoService(email) {
     const response = await DBUsers.atualizarCargo(email);
 
     return response;
 }
 
-export async function getUsuarioService(email){
+export async function getUsuarioService(email) {
     const response = await DBUsers.getUsuario(email);
 
     return response;
 }
 
-export async function personalizarUsuarioService(user){
+export async function personalizarUsuarioService(user) {
     const response = await DBUsers.PersonalizarUsuario(user);
     validacao.validarEmailExistente(user.email);
 
     return response;
 }
 
-export async function deleteUsuarioService(id){
+export async function deleteUsuarioService(id) {
     const response = await DBUsers.deleteUsuario(id);
 
     return response;

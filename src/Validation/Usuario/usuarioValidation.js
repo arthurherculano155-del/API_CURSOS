@@ -1,4 +1,4 @@
-import * as DBUsers from '../../Repository/Usuario/usuariosRepository.js'
+import * as DBUsers from '../../Repository/Usuario/usuariosRepository.js';
 
 export function validarEmail(email){
     if(!email.includes("@") || !email.includes("."))

@@ -1,8 +1,12 @@
 import { Router } from "express";
 import * as Service from "../../Service/Curso/cursoService.js";
+import * as middleware from '../../Middleware/autenticar.js';
 const endpoints = Router();
 
-endpoints.post('/cursos', async (req, resp) => {
+endpoints.post('/cursos', 
+    middleware.autenticar,
+    middleware.apenasAdmin,
+    async (req, resp) => {
     try{
         const cursos = req.body;
         let curso = await Service.postarCursoService(cursos);
@@ -73,7 +77,10 @@ endpoints.get('/ofertas', async (req, resp) => {
     }
 });
 
-endpoints.delete('/ofertas/:id', async (req, resp) => {
+endpoints.delete('/ofertas/:id',
+    middleware.autenticar,
+    middleware.apenasAdmin,
+    async (req, resp) => {
     const id = req.params.id;
     const resposta = await Service.deleteOfertasService(id);
 

@@ -42,7 +42,14 @@ export async function atualizarCargo(email){
 
 export async function getUsuario(email){
     const command = `
-        select * from usuarios
+        select 
+            id_usuario,
+            nome,
+            email,
+            cargo,
+            primeiro_nome,
+            imagem_url
+        from usuarios
         where email like ?
         order by cargo DESC, 
         email ASC; 
