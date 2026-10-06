@@ -29,12 +29,12 @@ endpoints.post('/usuario/entrar', async (req, resp) => {
         resp.send({
             resultado: "Login realizado com sucesso!",
             usuario: {
-                id: entrar.id_usuario,
-                nome: entrar.nome,
-                email: entrar.email,
-                cargo: entrar.cargo,
-                primeiro_nome: entrar.primeiro_nome,
-                imagem_url: entrar.imagem_url
+                id: entrar.conta.id_usuario,
+                nome: entrar.conta.nome,
+                email: entrar.conta.email,
+                cargo: entrar.conta.cargo,
+                primeiro_nome: entrar.conta.primeiro_nome,
+                imagem_url: entrar.conta.imagem_url
             },
             token: entrar.token
         });
