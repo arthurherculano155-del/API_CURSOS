@@ -44,7 +44,7 @@ export async function getUsuario(email){
     const command = `
         select * from usuarios
         where email like ?
-        order by cargo ASC, 
+        order by cargo DESC, 
         email ASC; 
     `
 
