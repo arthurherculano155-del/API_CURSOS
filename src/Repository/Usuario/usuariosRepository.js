@@ -79,8 +79,8 @@ export async function PersonalizarUsuario(user){
 
 export async function deleteUsuario(id){
     const command = `
-        delete usuarios
-        where id = ?
+        delete from usuarios
+        where id_usuario = ?
     `
 
     const [resposta] = await con.query(command, [id]);
