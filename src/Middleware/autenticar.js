@@ -3,13 +3,13 @@ import jwt from 'jsonwebtoken';
 export function autenticar(req, resp, next){
     const autorizacao = req.headers.authorization;
 
-    if(!authorization){
+    if(!autorizacao){
         resp.status(401).send({
             erro: "Token não informado."
         })
     }
 
-    const token = authorization.split(" ")[1];
+    const token = autorizacao.split(" ")[1];
 
     try{
         const usuario = jwt.verify(
