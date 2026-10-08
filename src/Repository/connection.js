@@ -28,4 +28,4 @@ const con = mysql.createPool({
     }
 });
 
-export default con;
+export {con};
