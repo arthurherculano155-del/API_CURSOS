@@ -11,8 +11,8 @@ export async function validarCadastro(user) {
     if (!user?.nome?.trim())
         throw new Error("Insira um nome");
 
-    if (!user.email.includes("@") ||
-        !user.email.includes("."))
+    if (!user?.email?.includes("@") ||
+        !user?.email?.includes("."))
         throw new Error("Email inválido");
 
     const conta = await DBUsers.getEmail(user.email);
