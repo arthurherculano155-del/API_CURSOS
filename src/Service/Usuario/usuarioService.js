@@ -1,18 +1,16 @@
 import bcrypt from "bcrypt";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
-import * as DBUsers from '../../Repository/Usuario/usuariosRepository.js'
+import * as DBUsers from '../../Repository/Usuario/usuariosRepository.js';
 import * as validacao from '../../Validation/Usuario/usuarioValidation.js';
 
 export async function cadastrarUsuarioService(user) {
-    validacao.validarEmail(user.email);
-    await validacao.getEmailValidation(user.email);
+    await validacao.validarCadastro(user);
 
-    const partes = user.nome.split(" ");
+    const partes = user.nome.trim().split(/\s+/);
 
     user.primeiro_nome = partes[0];
-
-    user.nome = `${partes[0]} ${partes[1]}`;
+    user.nome = partes.join(" ");
 
     user.senha = await bcrypt.hash(user.senha, 10);
 
@@ -22,9 +20,12 @@ export async function cadastrarUsuarioService(user) {
 }
 
 export async function entrarUsuarioService(user) {
+    if (!user?.email || !user?.senha)
+        throw new Error("Email ou senha incorretos");
+
     const conta = await DBUsers.getEmail(user.email);
 
-    validacao.validarLogin(conta);
+    validacao.validarLogin(conta, user.senha);
 
     const senhaCorreta = await bcrypt.compare(
         user.senha,
@@ -42,12 +43,12 @@ export async function entrarUsuarioService(user) {
         {
             expiresIn: "2h"
         }
-    )
+    );
 
-    return ({
+    return {
         conta,
         token
-    });
+    };
 }
 
 export async function atualizarCargoService(email) {
@@ -64,7 +65,6 @@ export async function getUsuarioService(email) {
 
 export async function personalizarUsuarioService(user) {
     const response = await DBUsers.PersonalizarUsuario(user);
-    validacao.validarEmailExistente(user.email);
 
     return response;
 }
