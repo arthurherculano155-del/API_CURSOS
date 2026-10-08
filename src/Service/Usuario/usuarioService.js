@@ -20,19 +20,18 @@ export async function cadastrarUsuarioService(user) {
 }
 
 export async function entrarUsuarioService(user) {
-    if (!user?.email || !user?.senha)
-        throw new Error("Email ou senha incorretos");
+    validacao.validarLogin(user);
 
     const conta = await DBUsers.getEmail(user.email);
 
-    validacao.validarLogin(conta, user.senha);
+    validacao.validarLogin(conta);
 
     const senhaCorreta = await bcrypt.compare(
         user.senha,
         conta.senha
     );
 
-    validacao.validarSenhaLogin(senhaCorreta);
+    validacao.validarLogin(senhaCorreta);
 
     const token = jwt.sign(
         {

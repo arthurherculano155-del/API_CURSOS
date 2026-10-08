@@ -21,17 +21,15 @@ export async function validarCadastro(user) {
         throw new Error("Usuário já cadastrado");
 }
 
-export function validarLogin(conta, senha) {
-    if (!conta || !senha)
+export function validarLogin(user, senhaCorreta) {
+    if (!user?.conta || !user?.senha)
+        throw new Error("Email ou senha incorretos");
+
+    if (!senhaCorreta)
         throw new Error("Email ou senha incorretos");
 }
 
 export function validarEmailExistente(conta) {
     if (!conta)
         throw new Error("Usuário inexistente");
-}
-
-export function validarSenhaLogin(senhaCorreta) {
-    if (!senhaCorreta)
-        throw new Error("Email ou senha incorretos");
 }
