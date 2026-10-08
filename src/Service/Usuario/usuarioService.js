@@ -31,7 +31,7 @@ export async function entrarUsuarioService(user) {
         conta.senha
     );
 
-    validacao.validarLogin(senhaCorreta);
+    validacao.validarLogin(user, senhaCorreta);
 
     const token = jwt.sign(
         {
