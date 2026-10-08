@@ -24,14 +24,15 @@ export async function entrarUsuarioService(user) {
 
     const conta = await DBUsers.getEmail(user.email);
 
-    validacao.validarLogin(conta);
+    if (!conta)
+        throw new Error("Email ou senha incorretos");
 
     const senhaCorreta = await bcrypt.compare(
         user.senha,
         conta.senha
     );
 
-    validacao.validarLogin(user, senhaCorreta);
+    validacao.validarCredenciais(conta, senhaCorreta);
 
     const token = jwt.sign(
         {
