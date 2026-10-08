@@ -21,11 +21,13 @@ export async function validarCadastro(user) {
         throw new Error("Usuário já cadastrado");
 }
 
-export function validarLogin(user, senhaCorreta) {
-    if (!user?.conta || !user?.senha)
+export function validarLogin(user) {
+    if (!user?.email || !user?.senha)
         throw new Error("Email ou senha incorretos");
+}
 
-    if (!senhaCorreta)
+export function validarCredenciais(conta, senhaCorreta) {
+    if (!conta || !senhaCorreta)
         throw new Error("Email ou senha incorretos");
 }
 
