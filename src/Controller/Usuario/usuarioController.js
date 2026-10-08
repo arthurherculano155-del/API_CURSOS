@@ -95,7 +95,7 @@ endpoints.put('/usuario/personalizar', async (req, resp) => {
     }
 })
 
-endpoints.delete('usuario/deletar/:id', 
+endpoints.delete('/usuario/deletar/:id', 
     middleware.autenticar,
     middleware.apenasAdmin,
     async (req, resp) => {
