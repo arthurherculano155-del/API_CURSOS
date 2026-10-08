@@ -6,7 +6,12 @@ import Rotear from "./rotas.js";
 
 const api = express();
 api.use(express.json());
-api.use(cors());
+api.use(cors({
+    origin: [
+        "https://cursinhopertinho.onrender.com/",
+        "http://localhost:3000/"
+    ]
+}));
 
 Rotear(api)
 
