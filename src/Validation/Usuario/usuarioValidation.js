@@ -1,4 +1,3 @@
-
 import * as DBUsers from '../../Repository/Usuario/usuariosRepository.js';
 
 export async function validarCadastro(user) {
