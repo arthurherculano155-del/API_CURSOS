@@ -29,7 +29,7 @@ export async function getUnidadesService(regiao){
 export async function getOfertasService(regiao) {
     const response = await DBCursos.getOfertas(regiao);
 
-    return response[0];
+    return response;
 }
 
 export async function deleteOfertasService(regiao){
