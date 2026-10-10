@@ -1,6 +1,31 @@
 import { con } from "../connection.js";
 
-export async function postarCurso(curso){
+export async function getOfertaExistente(oferta) {
+    const command = `
+        SELECT *
+        FROM ofertas_cursos
+        WHERE id_curso = ?
+        AND id_unidade = ?
+        AND nivel = ?
+        AND preco = ?
+        AND carga_horaria = ?
+        AND modalidade = ?
+        LIMIT 1;
+    `;
+
+    const [resposta] = await con.query(command, [
+        Number(oferta.id_curso),
+        Number(oferta.id_unidade),
+        oferta.nivel,
+        Number(oferta.preco),
+        Number(oferta.carga_horaria),
+        oferta.modalidade
+    ]);
+
+    return resposta[0] ?? null;
+}
+
+export async function postarCurso(curso) {
     const command = `
         INSERT INTO ofertas_cursos(
             id_curso, 
@@ -17,21 +42,21 @@ export async function postarCurso(curso){
     `
 
     const [resposta] = await con.query(command, [
-            curso.id_curso, 
-            curso.id_unidade, 
-            curso.nivel, 
-            curso.preco, 
-            curso.carga_horaria, 
-            curso.modalidade,
-            curso.descricao,
-            curso.link_inscricao,
-            curso.imagem
+        curso.id_curso,
+        curso.id_unidade,
+        curso.nivel,
+        curso.preco,
+        curso.carga_horaria,
+        curso.modalidade,
+        curso.descricao,
+        curso.link_inscricao,
+        curso.imagem
     ]);
 
     return resposta.insertId;
 }
 
-export async function getRegioes(id_regiao){
+export async function getRegioes(id_regiao) {
     const command = `
         SELECT
             b.id_bairro,
@@ -49,7 +74,7 @@ export async function getRegioes(id_regiao){
     return lista;
 }
 
-export async function getCursos(){
+export async function getCursos() {
     const command = `
         SELECT
             id_curso,
@@ -63,7 +88,7 @@ export async function getCursos(){
     return lista;
 }
 
-export async function getUnidades(regiao){
+export async function getUnidades(regiao) {
     const command = `
         SELECT
             u.id_unidade,
@@ -92,8 +117,8 @@ export async function getUnidades(regiao){
     return lista;
 }
 
-export async function getOfertas(regiao){
-    const command = `
+export async function getOfertas(pesquisa = {}) {
+    let command = `
         SELECT
             o.id_oferta AS id,
 
@@ -104,7 +129,7 @@ export async function getOfertas(regiao){
             o.preco,
             o.carga_horaria,
             o.modalidade,
-            o.descricao AS descricao,
+            o.descricao,
             o.link_inscricao,
             o.imagem,
 
@@ -140,21 +165,65 @@ export async function getOfertas(regiao){
         INNER JOIN regioes AS r
             ON b.id_regiao = r.id_regiao
 
-        where r.nome like ?
+        WHERE 1 = 1
+    `;
 
+    const valores = [];
+
+    if (pesquisa.regiao) {
+        command += ` AND r.nome LIKE ?`;
+        valores.push(`%${pesquisa.regiao}%`);
+    }
+
+    if (pesquisa.id_curso) {
+        command += ` AND c.id_curso = ?`;
+        valores.push(pesquisa.id_curso);
+    }
+
+    if (pesquisa.curso) {
+        command += ` AND c.nome LIKE ?`;
+        valores.push(`%${pesquisa.curso}%`);
+    }
+
+    if (pesquisa.unidade) {
+        command += ` AND u.nome LIKE ?`;
+        valores.push(`%${pesquisa.unidade}%`);
+    }
+
+    if (pesquisa.nivel) {
+        command += ` AND o.nivel LIKE ?`;
+        valores.push(`%${pesquisa.nivel}%`);
+    }
+
+    if (pesquisa.preco !== undefined && pesquisa.preco !== "") {
+        command += ` AND o.preco = ?`;
+        valores.push(pesquisa.preco);
+    }
+
+    if (pesquisa.carga_horaria) {
+        command += ` AND o.carga_horaria = ?`;
+        valores.push(pesquisa.carga_horaria);
+    }
+
+    if (pesquisa.modalidade) {
+        command += ` AND o.modalidade LIKE ?`;
+        valores.push(`%${pesquisa.modalidade}%`);
+    }
+
+    command += `
         ORDER BY
             r.nome ASC,
             b.nome ASC,
             i.nome ASC,
             c.nome ASC;
-    `
+    `;
 
-    const resposta = await con.query(command, [`%${regiao}%`]);
+    const [resposta] = await con.query(command, valores);
 
     return resposta;
 }
 
-export async function deleteOfertas(id){
+export async function deleteOfertas(id) {
     const command = `
         delete from ofertas_cursos
         where id_oferta = ?

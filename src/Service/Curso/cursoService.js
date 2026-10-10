@@ -1,6 +1,8 @@
 import * as DBCursos from '../../Repository/Curso/cursosRepository.js'
+import * as validacao from '../../Validation/Curso/cursoValidation.js'
 
 export async function postarCursoService(curso){
+    await validacao.validarOferta(curso);
     const response = await DBCursos.postarCurso(curso);
 
     return response;

@@ -65,8 +65,8 @@ endpoints.get('/unidades/:regiao', async (req, resp) => {
 
 endpoints.get('/ofertas', async (req, resp) => {
     try{
-        const regiao = req.query.regiao;
-        const lista = await Service.getOfertasService(regiao);
+        const pesquisa = req.query;
+        const lista = await Service.getOfertasService(pesquisa);
 
         resp.send(lista)
     }
