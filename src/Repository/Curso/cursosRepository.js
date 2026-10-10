@@ -175,11 +175,6 @@ export async function getOfertas(pesquisa = {}) {
         valores.push(`%${pesquisa.regiao}%`);
     }
 
-    if (pesquisa.id_curso) {
-        command += ` AND c.id_curso = ?`;
-        valores.push(pesquisa.id_curso);
-    }
-
     if (pesquisa.curso) {
         command += ` AND c.nome LIKE ?`;
         valores.push(`%${pesquisa.curso}%`);
@@ -193,16 +188,6 @@ export async function getOfertas(pesquisa = {}) {
     if (pesquisa.nivel) {
         command += ` AND o.nivel LIKE ?`;
         valores.push(`%${pesquisa.nivel}%`);
-    }
-
-    if (pesquisa.preco !== undefined && pesquisa.preco !== "") {
-        command += ` AND o.preco = ?`;
-        valores.push(pesquisa.preco);
-    }
-
-    if (pesquisa.carga_horaria) {
-        command += ` AND o.carga_horaria = ?`;
-        valores.push(pesquisa.carga_horaria);
     }
 
     if (pesquisa.modalidade) {
