@@ -180,9 +180,9 @@ export async function getOfertas(pesquisa = {}) {
         valores.push(`%${pesquisa.curso}%`);
     }
 
-    if (pesquisa.unidade) {
-        command += ` AND u.nome LIKE ?`;
-        valores.push(`%${pesquisa.unidade}%`);
+    if (pesquisa.instituicao) {
+        command += ` AND i.nome LIKE ?`;
+        valores.push(`%${pesquisa.instituicao}%`);
     }
 
     if (pesquisa.nivel) {
