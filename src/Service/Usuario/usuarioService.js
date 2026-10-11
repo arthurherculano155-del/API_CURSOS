@@ -94,7 +94,7 @@ export async function enviarCodigoService(email) {
     const anterior = codigos.get(usuario.id_usuario);
 
     if (anterior && Date.now() < anterior.validade)
-        return;
+        throw new Error("Já existe um código de recuperação válido.");
 
     codigos.set(usuario.id_usuario, {
         hash: hash,
@@ -144,21 +144,21 @@ export async function verificarCodigoService(email, codigo) {
     return token;
 }
 
-export async function atualizarSenhaService(token, novaSenha){
+export async function atualizarSenhaService(token, novaSenha) {
     const dados = jwt.verify(
         token,
         process.env.JWT_RECUPERACAO_SECRET
     )
 
-    if(dados.finalidade != "recuperar-senha")
+    if (dados.finalidade != "recuperar-senha")
         throw new Error("Token inválido");
 
     const senhaCriptografada = await bcrypt.hash(
-        novaSenha, 
+        novaSenha,
         10
     );
 
-        const resposta = await DBUsers.RecuperarSenha(
+    const resposta = await DBUsers.RecuperarSenha(
         dados.id,
         senhaCriptografada
     );
