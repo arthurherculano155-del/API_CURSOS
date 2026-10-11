@@ -34,3 +34,20 @@ export function validarEmailExistente(conta) {
     if (!conta)
         throw new Error("Usuário inexistente");
 }
+
+export function dadosValidation(dados){
+    if(!dados)
+        throw new Error("Código expirado ou inválido");
+
+    if(Date.now() >= dados.validade){
+        throw new Error("Código expirado")
+    }
+
+    if(dados.tentativas >= 5)
+        throw new Error("Limite de tentativas atingido")
+}
+
+export function verificarCodigo(codigo){
+    if (!codigo)
+        throw new Error("Código inválido")
+}

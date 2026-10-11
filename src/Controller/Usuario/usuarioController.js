@@ -60,24 +60,24 @@ endpoints.get('/usuario', async (req, resp) => {
     }
 })
 
-endpoints.put('/usuario', 
+endpoints.put('/usuario',
     middleware.autenticar,
     middleware.apenasAdmin,
     async (req, resp) => {
-    try {
-        const email = req.body.email;
-        const resposta = await Service.atualizarCargoService(email);
+        try {
+            const email = req.body.email;
+            const resposta = await Service.atualizarCargoService(email);
 
-        resp.send({
-            Linhas_Alteradas: resposta
-        })
-    }
-    catch (err) {
-        resp.status(400).send({
-            erro: err.message
-        })
-    }
-});
+            resp.send({
+                Linhas_Alteradas: resposta
+            })
+        }
+        catch (err) {
+            resp.status(400).send({
+                erro: err.message
+            })
+        }
+    });
 
 endpoints.put('/usuario/personalizar', async (req, resp) => {
     try {
@@ -95,17 +95,70 @@ endpoints.put('/usuario/personalizar', async (req, resp) => {
     }
 })
 
-endpoints.delete('/usuario/deletar/:id', 
+endpoints.delete('/usuario/deletar/:id',
     middleware.autenticar,
     middleware.apenasAdmin,
     async (req, resp) => {
-    try {
-        const id = req.params.id;
+        try {
+            const id = req.params.id;
 
-        const resposta = await Service.deleteUsuarioService(id);
+            const resposta = await Service.deleteUsuarioService(id);
+
+            resp.send({
+                Linhas_Alteradas: resposta
+            })
+        }
+        catch (err) {
+            resp.status(400).send({
+                erro: err.message
+            })
+        }
+    })
+endpoints.post("/usuario/enviar-codigo", async (req, resp) => {
+    try {
+        const email = req.body.email;
+
+        await Service.enviarCodigoService(email);
 
         resp.send({
-            Linhas_Alteradas: resposta
+            resultado: "Se o e-mail estiver cadastrado, enviaremos um código de recuperação."
+        });
+    }
+    catch (err) {
+        resp.status(500).send({
+            erro: "Não foi possível enviar o código."
+        });
+    }
+});
+
+endpoints.post('/usuario/verificar-codigo', async (req, resp) => {
+    try {
+        const email = req.body.email;
+        const codigo = req.body.codigo;
+
+        const token = await Service.verificarCodigoService(email, codigo);
+
+        resp.send({
+            resultado: "Código verificado com sucesso",
+            token: token
+        })
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+endpoints.put("/usuario/redefinir-senha", async (req, resp) => {
+    try {
+        const token = req.body.token;
+        const novaSenha = req.body.novaSenha;
+
+        await Service.atualizarSenhaService(token, novaSenha);
+
+        resp.send({
+            resultado: "Senha atualizada com sucesso!"
         })
     }
     catch (err) {

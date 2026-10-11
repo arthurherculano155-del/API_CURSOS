@@ -23,7 +23,7 @@ export async function getEmail(email){
         where email = ?
     `
 
-    const [resposta] = await con.query(command, [email.trim().toLowerCase()])
+    const [resposta] = await con.query(command, [email])
 
     return resposta[0];
 }
@@ -84,6 +84,21 @@ export async function deleteUsuario(id){
     `
 
     const [resposta] = await con.query(command, [id]);
+
+    return resposta.affectedRows;
+}
+
+export async function RecuperarSenha(id, senha){
+    const command = `
+        UPDATE usuarios
+        set senha = ?
+        where id_usuario = ?
+    `
+
+    const [resposta] = await con.query(command, [
+        senha,
+        id
+    ]);
 
     return resposta.affectedRows;
 }
