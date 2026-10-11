@@ -139,10 +139,5 @@ export async function enviarCodigo(destinatario, codigo) {
 `
     });
 
-    console.log("Email aceito:", resposta.accepted);
-console.log("Email rejeitado:", resposta.rejected);
-console.log("Resposta SMTP:", resposta.response);
-console.log("ID da mensagem:", resposta.messageId);
-
     return resposta;
 }
