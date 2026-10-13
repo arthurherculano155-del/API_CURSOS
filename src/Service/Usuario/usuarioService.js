@@ -94,7 +94,7 @@ export async function enviarCodigoService(email) {
     const anterior = codigos.get(usuario.id_usuario);
 
     if (anterior && Date.now() < anterior.validade)
-        throw new Error("Já existe um código de recuperação válido.");
+        throw new Error("Já existe um código de recuperação válido");
 
     codigos.set(usuario.id_usuario, {
         hash: hash,

@@ -7,6 +7,8 @@ export function autenticar(req, resp, next){
         resp.status(401).send({
             erro: "Token não informado."
         })
+
+        return;
     }
 
     const token = autorizacao.split(" ")[1];
