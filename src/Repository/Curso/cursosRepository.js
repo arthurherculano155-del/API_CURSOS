@@ -200,7 +200,8 @@ export async function getOfertas(pesquisa = {}) {
             r.nome ASC,
             b.nome ASC,
             i.nome ASC,
-            c.nome ASC;
+            c.nome ASC,
+            o.nivel ASC;
     `;
 
     const [resposta] = await con.query(command, valores);
