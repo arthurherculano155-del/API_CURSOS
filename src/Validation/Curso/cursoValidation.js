@@ -6,3 +6,10 @@ export async function validarOferta(oferta){
     if(validacao != null)
         throw new Error("Oferta já cadastrada");
 }
+
+export async function validarOfertaPorID(oferta){
+    const validacao = await DBCursos.getOfertaExistente(oferta);
+
+    if(validacao === null)
+        throw new Error("Oferta já cadastrada");
+}

@@ -1,8 +1,9 @@
 import * as DBCursos from '../../Repository/Curso/cursosRepository.js'
-import * as validacao from '../../Validation/Curso/cursoValidation.js'
+import * as validacaoCurso from '../../Validation/Curso/cursoValidation.js'
+import * as validacaoUsuario from '../../Validation/Usuario/usuarioValidation.js'
 
 export async function postarCursoService(curso){
-    await validacao.validarOferta(curso);
+    await validacaoCurso.validarOferta(curso);
     const response = await DBCursos.postarCurso(curso);
 
     return response;
@@ -36,4 +37,22 @@ export async function deleteOfertasService(regiao){
     const response = await DBCursos.deleteOfertas(regiao);
 
     return response.insertId;
+}
+
+export async function InserirOfertaListaService(usuario, oferta){
+    await validacaoUsuario.validarEmailExistente(usuario);
+    await validacaoCurso.validarOfertaPorID(oferta);
+
+    const response = await DBCursos.InserirOfertaLista(
+        usuario, 
+        oferta
+    );
+
+    return response;
+}
+
+export async function getOfertasLista(id_usuario){
+    const response = await DBCursos.getListaOfertas(id_usuario);
+
+    return response;
 }

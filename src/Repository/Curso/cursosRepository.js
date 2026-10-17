@@ -25,6 +25,21 @@ export async function getOfertaExistente(oferta) {
     return resposta[0] ?? null;
 }
 
+export async function getOfertaExistentePorID(oferta) {
+    const command = `
+        SELECT *
+        FROM ofertas_cursos
+        WHERE id_curso = ?
+        LIMIT 1;
+    `;
+
+    const [resposta] = await con.query(command, [
+        Number(oferta)
+    ]);
+
+    return resposta[0];
+}
+
 export async function postarCurso(curso) {
     const command = `
         INSERT INTO ofertas_cursos(
@@ -226,6 +241,72 @@ export async function deleteOfertas(id) {
     `
 
     const resposta = await con.query(command, [id]);
+
+    return resposta;
+}
+
+export async function InserirOfertaLista(usuario, oferta) {
+    const command = `
+     INSERT INTO Ofertas_Lista_Usuarios(id_usuario, id_oferta)
+        values(?, ?)
+     `
+
+    const [resposta] = await con.query(command, [
+        usuario,
+        oferta
+    ]);
+
+    return resposta.insertId;
+}
+
+export async function getListaOfertas(id_usuario) {
+    const command = `
+        SELECT
+            olu.id_lista,
+            u.id_usuario,
+            o.id_oferta AS id,
+            c.id_curso,
+            c.nome AS curso,
+            o.nivel,
+            o.preco,
+            o.carga_horaria,
+            o.modalidade,
+            o.descricao,
+            o.link_inscricao,
+            o.imagem,
+            i.id_instituicao,
+            i.nome AS instituicao,
+            un.id_unidade,
+            un.nome AS unidade,
+            un.endereco,
+            un.numero,
+            un.cep,
+            b.id_bairro,
+            b.nome AS bairro,
+            r.id_regiao,
+            r.nome AS regiao
+        FROM Ofertas_Lista_Usuarios AS olu
+        INNER JOIN usuarios AS u
+            ON olu.id_usuario = u.id_usuario
+        INNER JOIN ofertas_cursos AS o
+            ON olu.id_oferta = o.id_oferta
+        INNER JOIN cursos AS c
+            ON o.id_curso = c.id_curso
+        INNER JOIN unidades AS un
+            ON o.id_unidade = un.id_unidade
+        INNER JOIN instituicoes AS i
+            ON un.id_instituicao = i.id_instituicao
+        INNER JOIN bairros AS b
+            ON un.id_bairro = b.id_bairro
+        INNER JOIN regioes AS r
+            ON b.id_regiao = r.id_regiao
+        WHERE u.id_usuario = ?
+        ORDER BY olu.id_lista DESC;
+    `
+
+    const [resposta] = await con.query(command, [
+        id_usuario
+    ]);
 
     return resposta;
 }
