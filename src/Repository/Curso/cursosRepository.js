@@ -195,6 +195,11 @@ export async function getOfertas(pesquisa = {}) {
         valores.push(`%${pesquisa.modalidade}%`);
     }
 
+    if (pesquisa.precoMinimo !== undefined && pesquisa.precoMaximo !== undefined) {
+        command += `AND o.preco BETWEEN ? AND ?`;
+        valores.push(pesquisa.precoMinimo, pesquisa.precoMaximo);
+    }
+
     command += `
         ORDER BY
             r.nome ASC,
