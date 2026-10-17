@@ -195,9 +195,14 @@ export async function getOfertas(pesquisa = {}) {
         valores.push(`%${pesquisa.modalidade}%`);
     }
 
-    if (pesquisa.precoMinimo !== undefined && pesquisa.precoMaximo !== undefined) {
-        command += `AND o.preco BETWEEN ? AND ?`;
-        valores.push(pesquisa.precoMinimo, pesquisa.precoMaximo);
+    if (pesquisa.precoMinimo !== undefined && pesquisa.precoMinimo !== null && pesquisa.precoMinimo !== "") {
+        command += `AND o.preco >= ?`;
+        valores.push(pesquisa.precoMinimo);
+    }
+
+    if (pesquisa.precoMaximo !== undefined && pesquisa.precoMaximo !== null && pesquisa.precoMaximo !== "") {
+        command += ` AND o.preco <= ?`;
+        valores.push(pesquisa.precoMaximo);
     }
 
     command += `
