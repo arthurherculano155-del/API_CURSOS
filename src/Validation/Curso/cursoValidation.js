@@ -8,8 +8,8 @@ export async function validarOferta(oferta){
 }
 
 export async function validarOfertaPorID(oferta){
-    const validacao = await DBCursos.getOfertaExistente(oferta);
+    const validacao = await DBCursos.getOfertaExistentePorID(oferta);
 
-    if(validacao === null)
-        throw new Error("Oferta já cadastrada");
+    if(validacao == null)
+        throw new Error("Oferta inexistente");
 }

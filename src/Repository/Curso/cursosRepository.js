@@ -29,8 +29,8 @@ export async function getOfertaExistentePorID(oferta) {
     const command = `
         SELECT *
         FROM ofertas_cursos
-        WHERE id_curso = ?
-        LIMIT 1;
+        WHERE id_oferta = ?
+        LIMIT 1
     `;
 
     const [resposta] = await con.query(command, [
@@ -252,8 +252,8 @@ export async function InserirOfertaLista(usuario, oferta) {
      `
 
     const [resposta] = await con.query(command, [
-        usuario,
-        oferta
+        Number(usuario),
+        Number(oferta)
     ]);
 
     return resposta.insertId;
