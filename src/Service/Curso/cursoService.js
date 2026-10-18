@@ -42,17 +42,19 @@ export async function deleteOfertasService(regiao) {
 export async function InserirOfertaListaService(usuario, oferta) {
     await validacaoUsuario.validarEmailExistente(usuario);
     await validacaoCurso.validarOfertaPorID(oferta);
+    await validacaoCurso.validarOfertaLista(oferta, usuario);
+
 
     const response = await DBCursos.InserirOfertaLista(
-        Number(usuario),
-        Number(oferta)
+        usuario,
+        oferta
     );
 
     return response;
 }
 
 export async function getOfertasLista(id_usuario) {
-    const response = await DBCursos.getListaOfertas(Number(id_usuario));
+    const response = await DBCursos.getListaOfertas(id_usuario);
 
-    return response;
+    return response[0];
 }

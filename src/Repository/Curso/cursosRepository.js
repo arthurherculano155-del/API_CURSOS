@@ -305,8 +305,62 @@ export async function getListaOfertas(id_usuario) {
     `
 
     const [resposta] = await con.query(command, [
-        id_usuario
+        Number(id_usuario)
     ]);
 
     return resposta;
+}
+
+export async function getListaOfertasValidacao(id_oferta, id_usuario) {
+    const command = `
+        SELECT
+            olu.id_lista,
+            u.id_usuario,
+            o.id_oferta AS id,
+            c.id_curso,
+            c.nome AS curso,
+            o.nivel,
+            o.preco,
+            o.carga_horaria,
+            o.modalidade,
+            o.descricao,
+            o.link_inscricao,
+            o.imagem,
+            i.id_instituicao,
+            i.nome AS instituicao,
+            un.id_unidade,
+            un.nome AS unidade,
+            un.endereco,
+            un.numero,
+            un.cep,
+            b.id_bairro,
+            b.nome AS bairro,
+            r.id_regiao,
+            r.nome AS regiao
+        FROM Ofertas_Lista_Usuarios AS olu
+        INNER JOIN usuarios AS u
+            ON olu.id_usuario = u.id_usuario
+        INNER JOIN ofertas_cursos AS o
+            ON olu.id_oferta = o.id_oferta
+        INNER JOIN cursos AS c
+            ON o.id_curso = c.id_curso
+        INNER JOIN unidades AS un
+            ON o.id_unidade = un.id_unidade
+        INNER JOIN instituicoes AS i
+            ON un.id_instituicao = i.id_instituicao
+        INNER JOIN bairros AS b
+            ON un.id_bairro = b.id_bairro
+        INNER JOIN regioes AS r
+            ON b.id_regiao = r.id_regiao
+        WHERE o.id_oferta = ? AND
+        u.id_usuario = ?
+        ORDER BY olu.id_lista DESC;
+    `
+
+    const [resposta] = await con.query(command, [
+        id_oferta,
+        id_usuario
+    ]);
+
+    return resposta[0];
 }

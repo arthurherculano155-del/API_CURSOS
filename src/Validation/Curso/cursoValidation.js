@@ -13,3 +13,10 @@ export async function validarOfertaPorID(oferta){
     if(validacao == null)
         throw new Error("Oferta inexistente");
 }
+
+export async function validarOfertaLista(oferta, usuario){
+    const validacao = await DBCursos.getListaOfertasValidacao(oferta, usuario)
+
+    if(validacao != null)
+        throw new Error("Validação já está na lista")
+}
