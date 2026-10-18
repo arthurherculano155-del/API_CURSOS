@@ -40,8 +40,6 @@ export async function deleteOfertasService(regiao) {
 }
 
 export async function InserirOfertaListaService(usuario, oferta) {
-    await validacaoUsuario.validarEmailExistente(usuario);
-    await validacaoCurso.validarOfertaPorID(oferta);
 
     const response = await DBCursos.InserirOfertaLista(
         Number(usuario),
