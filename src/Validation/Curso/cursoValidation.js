@@ -17,6 +17,6 @@ export async function validarOfertaPorID(oferta){
 export async function validarOfertaLista(oferta, usuario){
     const validacao = await DBCursos.getListaOfertasValidacao(oferta, usuario)
 
-    if(validacao != null)
+    if(validacao[0] != null)
         throw new Error("Validação já está na lista")
 }
