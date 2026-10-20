@@ -90,9 +90,12 @@ endpoints.delete('/ofertas/:id',
         )
     })
 
-endpoints.post('/ofertas/cadastrar', async (req, resp) => {
+endpoints.post(
+    '/ofertas/cadastrar',
+    middleware.autenticar, 
+    async (req, resp) => {
     try {
-        const usuario = req.body.usuario;
+        const usuario = req.usuario.id;
         const oferta = req.body.oferta
 
         const ID = await Service.InserirOfertaListaService(usuario, oferta);
