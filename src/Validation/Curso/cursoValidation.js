@@ -18,5 +18,5 @@ export async function validarOfertaLista(oferta, usuario){
     const validacao = await DBCursos.getListaOfertasValidacao(oferta, usuario)
 
     if(validacao[0] != null)
-        throw new Error("Validação já está na lista")
+        throw new Error("Oferta já cadastrada em sua lista")
 }
