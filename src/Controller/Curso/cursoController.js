@@ -96,7 +96,7 @@ endpoints.post(
     async (req, resp) => {
     try {
         const usuario = req.usuario.id;
-        const oferta = req.body.oferta
+        const oferta = req.body.oferta;
 
         const ID = await Service.InserirOfertaListaService(usuario, oferta);
 
