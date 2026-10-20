@@ -56,5 +56,5 @@ export async function InserirOfertaListaService(usuario, oferta) {
 export async function getOfertasLista(id_usuario) {
     const response = await DBCursos.getListaOfertas(id_usuario);
 
-    return response[0];
+    return response;
 }
