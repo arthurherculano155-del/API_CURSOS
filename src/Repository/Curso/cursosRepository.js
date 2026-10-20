@@ -362,5 +362,5 @@ export async function getListaOfertasValidacao(id_oferta, id_usuario) {
         id_usuario
     ]);
 
-    return resposta[0];
+    return resposta;
 }
