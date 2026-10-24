@@ -369,3 +369,18 @@ export async function getListaOfertasValidacao(id_oferta, id_usuario) {
 
     return resposta;
 }
+
+export async function DeletarOfertaLista(usuario, oferta){
+        const command = `
+            delete from Ofertas_Lista_Usuarios
+            where id_usuario = ? and
+            id_oferta = ?
+        `
+
+        const [resposta] = await con.query(command, [
+            usuario,
+            oferta
+        ])
+
+        return resposta.affectedRows;
+}

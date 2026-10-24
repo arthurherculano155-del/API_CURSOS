@@ -92,24 +92,24 @@ endpoints.delete('/ofertas/:id',
 
 endpoints.post(
     '/ofertas/cadastrar',
-    middleware.autenticar, 
+    middleware.autenticar,
     async (req, resp) => {
-    try {
-        const usuario = req.usuario.id;
-        const oferta = req.body.oferta;
+        try {
+            const usuario = req.usuario.id;
+            const oferta = req.body.oferta;
 
-        const ID = await Service.InserirOfertaListaService(usuario, oferta);
+            const ID = await Service.InserirOfertaListaService(usuario, oferta);
 
-        resp.send({
-            ID: ID
-        })
-    }
-    catch (err) {
-        resp.status(400).send({
-            erro: err.message
-        })
-    }
-})
+            resp.send({
+                ID: ID
+            })
+        }
+        catch (err) {
+            resp.status(400).send({
+                erro: err.message
+            })
+        }
+    })
 
 endpoints.get('/ofertas/lista/:id_usuario', async (req, resp) => {
     try {
@@ -127,5 +127,27 @@ endpoints.get('/ofertas/lista/:id_usuario', async (req, resp) => {
         })
     }
 })
+
+endpoints.delete(
+    '/usuario/ofertas/deletar',
+    middleware.autenticar,
+    async (req, resp) => {
+
+        try {
+            const usuario = req.usuario.id;
+            const oferta = req.body.oferta;
+
+            const deletar = await Service.DeletarOfertaUsuarioService(usuario, oferta)
+
+            resp.send({
+                Linhas_Alteradas: deletar
+            })
+        }
+        catch (err) {
+            resp.status(400).send({
+                erro: err.message
+            })
+        }
+    })
 
 export default endpoints;

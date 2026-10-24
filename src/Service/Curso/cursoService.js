@@ -58,3 +58,9 @@ export async function getOfertasLista(id_usuario) {
 
     return response;
 }
+
+export async function DeletarOfertaUsuarioService(usuario, oferta){
+    const response = await DBCursos.DeletarOfertaLista(usuario, oferta);
+
+    return response;
+}
