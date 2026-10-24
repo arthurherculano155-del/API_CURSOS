@@ -220,6 +220,11 @@ export async function getOfertas(pesquisa = {}) {
         valores.push(pesquisa.precoMaximo);
     }
 
+    if(pesquisa.carga){
+        command += `AND o.carga_horaria = ?`
+        valores.push(pesquisa.carga);
+    }
+
     command += `
         ORDER BY
             r.nome ASC,
