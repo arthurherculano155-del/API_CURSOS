@@ -44,7 +44,10 @@ export async function entrarUsuarioService(user) {
             id: conta.id_usuario,
             cargo: conta.cargo
         },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
+            {
+                ignoreExpiration
+            }
     );
 
     return {
