@@ -102,3 +102,18 @@ export async function RecuperarSenha(id, senha){
 
     return resposta.affectedRows;
 }
+
+export async function atualizarFotoPerfil(id, imagem_url) {
+    const command = `
+        UPDATE usuarios
+        SET imagem_url = ?
+        WHERE id_usuario = ?
+    `;
+
+    const [resposta] = await con.query(command, [
+        imagem_url,
+        id
+    ]);
+
+    return resposta.affectedRows;
+}

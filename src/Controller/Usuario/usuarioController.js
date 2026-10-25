@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { upload } from '../../Middleware/multer.js';
 import * as Service from '../../Service/Usuario/usuarioService.js';
 import * as middleware from '../../Middleware/autenticar.js';
 
@@ -167,5 +168,36 @@ endpoints.put("/usuario/redefinir-senha", async (req, resp) => {
         })
     }
 })
+
+endpoints.put(
+    '/usuario/foto',
+    middleware.autenticar,
+    upload.single('foto'),
+    async (req, resp) => {
+        try {
+            if (!req.file) {
+                return resp.status(400).send({
+                    erro: 'Nenhuma foto foi enviada.'
+                });
+            }
+
+            const imagem_url =
+                await Service.atualizarFotoPerfilService(
+                    req.usuario.id,
+                    req.file.path
+                );
+
+            resp.send({
+                resultado: 'Foto de perfil atualizada!',
+                imagem_url
+            });
+        }
+        catch (err) {
+            resp.status(500).send({
+                erro: err.message
+            });
+        }
+    }
+);
 
 export default endpoints;

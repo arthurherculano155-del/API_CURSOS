@@ -2,6 +2,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "node:crypto";
 
+import { unlink } from 'node:fs/promises';
+import { enviarFotoPerfil } from './cloudinaryService.js';
+
 import * as DBUsers from '../../Repository/Usuario/usuariosRepository.js';
 import * as validacao from '../../Validation/Usuario/usuarioValidation.js';
 
@@ -165,4 +168,20 @@ export async function atualizarSenhaService(token, novaSenha) {
 
     return resposta;
 
+}
+
+export async function atualizarFotoPerfilService(id, caminhoArquivo) {
+    try {
+        const { imagem_url } = await enviarFotoPerfil(caminhoArquivo);
+
+        const resposta = await DBUsers.atualizarFotoPerfil(
+            id,
+            imagem_url
+        );
+        
+        return imagem_url;
+    }
+    finally {
+        await unlink(caminhoArquivo).catch(() => {});
+    }
 }
