@@ -69,8 +69,8 @@ export async function getUsuarioService(email) {
     return response;
 }
 
-export async function personalizarUsuarioService(user) {
-    const response = await DBUsers.PersonalizarUsuario(user);
+export async function personalizarUsuarioService(imagem_url, primeiro_nome, email) {
+    const response = await DBUsers.PersonalizarUsuario(imagem_url, primeiro_nome, email);
 
     return response;
 }
