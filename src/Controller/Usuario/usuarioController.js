@@ -80,10 +80,16 @@ endpoints.put('/usuario',
         }
     });
 
-endpoints.put('/usuario/personalizar', async (req, resp) => {
+endpoints.put(
+    '/usuario/personalizar',
+    middleware.autenticar,
+    async (req, resp) => {
     try {
-        const user = req.body;
-        const resposta = await Service.personalizarUsuarioService(user);
+        const email = req.usuario.email;
+        const imagem_url = req.body.imagem_url;
+        const primeiro_nome = req.body.primeiro_nome;
+
+        const resposta = await Service.personalizarUsuarioService(imagem_url, primeiro_nome, email);
 
         resp.send({
             Linhas_Alteradas: resposta

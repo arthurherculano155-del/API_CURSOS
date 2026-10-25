@@ -60,7 +60,7 @@ export async function getUsuario(email){
     return lista;
 }
 
-export async function PersonalizarUsuario(user){
+export async function PersonalizarUsuario(imagem_url, primeiro_nome, email){
     const command = `
         UPDATE usuarios
         set imagem_url = ?,
@@ -69,9 +69,9 @@ export async function PersonalizarUsuario(user){
     `
 
     const [resposta] = await con.query(command, [
-        user.imagem_url,
-        user.primeiro_nome,
-        user.email
+        imagem_url,
+        primeiro_nome,
+        email
     ])
 
     return resposta.affectedRows;

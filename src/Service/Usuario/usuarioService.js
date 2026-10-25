@@ -45,7 +45,8 @@ export async function entrarUsuarioService(user) {
     const token = jwt.sign(
         {
             id: conta.id_usuario,
-            cargo: conta.cargo
+            cargo: conta.cargo,
+            email: conta.email
         },
         process.env.JWT_SECRET
     );
