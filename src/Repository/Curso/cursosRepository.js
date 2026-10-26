@@ -133,7 +133,7 @@ export async function getUnidades(regiao) {
 }
 
 export async function getOfertas(pesquisa = {}) {
-    const command = `
+    let command = `
         SELECT
             o.id_oferta AS id,
 
