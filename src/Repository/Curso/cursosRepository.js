@@ -133,7 +133,7 @@ export async function getUnidades(regiao) {
 }
 
 export async function getOfertas(pesquisa = {}) {
-    let command = `
+    const command = `
         SELECT
             o.id_oferta AS id,
 
@@ -227,10 +227,10 @@ export async function getOfertas(pesquisa = {}) {
 
     command += `
         ORDER BY
+            c.nome ASC,
             r.nome ASC,
             b.nome ASC,
             i.nome ASC,
-            c.nome ASC,
             o.nivel ASC;
     `;
 
