@@ -233,10 +233,10 @@ export async function getOfertas(pesquisa = {}) {
 
     command += `
         ORDER BY
+            c.nome ASC,
             r.nome ASC,
             b.nome ASC,
             i.nome ASC,
-            c.nome ASC,
             o.nivel ASC;
     `;
 
