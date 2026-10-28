@@ -134,11 +134,12 @@ export async function getUnidades(regiao) {
 
 export async function getOfertas(pesquisa = {}) {
     let command = `
-        SELECT
+         SELECT
             o.id_oferta AS id,
 
             c.id_curso,
             c.nome AS curso,
+            c.tags as tags,
 
             o.nivel,
             o.preco,
@@ -185,6 +186,11 @@ export async function getOfertas(pesquisa = {}) {
 
     const valores = [];
 
+    if(pesquisa.tags){
+        command += `AND c.tags LIKE ?`
+        valores.push(`%${pesquisa.tags}%`);
+    }
+
     if (pesquisa.regiao) {
         command += ` AND r.nome LIKE ?`;
         valores.push(`%${pesquisa.regiao}%`);
@@ -220,7 +226,7 @@ export async function getOfertas(pesquisa = {}) {
         valores.push(pesquisa.precoMaximo);
     }
 
-    if(pesquisa.carga){
+    if (pesquisa.carga) {
         command += `AND o.carga_horaria = ?`
         valores.push(pesquisa.carga);
     }
@@ -370,17 +376,17 @@ export async function getListaOfertasValidacao(id_oferta, id_usuario) {
     return resposta;
 }
 
-export async function DeletarOfertaLista(usuario, oferta){
-        const command = `
+export async function DeletarOfertaLista(usuario, oferta) {
+    const command = `
             delete from Ofertas_Lista_Usuarios
             where id_usuario = ? and
             id_oferta = ?
         `
 
-        const [resposta] = await con.query(command, [
-            usuario,
-            oferta
-        ])
+    const [resposta] = await con.query(command, [
+        usuario,
+        oferta
+    ])
 
-        return resposta.affectedRows;
+    return resposta.affectedRows;
 }
