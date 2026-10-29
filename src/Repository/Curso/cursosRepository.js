@@ -132,6 +132,38 @@ export async function getUnidades(regiao) {
     return lista;
 }
 
+
+export async function getTodasUnidades() {
+    const command = `
+        SELECT
+            u.id_unidade,
+            i.nome AS instituicao,
+            u.nome AS unidade,
+            u.endereco,
+            u.numero,
+            u.cep,
+            b.nome AS bairro,
+            r.nome AS regiao,
+            u.latitude,
+            u.longitude
+        FROM unidades u
+        INNER JOIN instituicoes i
+            ON u.id_instituicao = i.id_instituicao
+        INNER JOIN bairros b
+            ON u.id_bairro = b.id_bairro
+        INNER JOIN regioes r
+            ON b.id_regiao = r.id_regiao
+        WHERE u.latitude IS NOT NULL
+          AND u.longitude IS NOT NULL
+          AND u.endereco <> 'Online'
+        ORDER BY i.nome, u.nome;
+    `;
+
+    const [lista] = await con.query(command);
+
+    return lista;
+}
+
 export async function getOfertas(pesquisa = {}) {
     let command = `
          SELECT

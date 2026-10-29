@@ -63,6 +63,22 @@ endpoints.get('/unidades/:regiao', async (req, resp) => {
     }
 });
 
+
+endpoints.get('/unidades', async (req, resp) => {
+    try {
+        const resposta = await Service.getTodasUnidadesService();
+
+        resp.status(200).send(resposta);
+    }
+    catch (err) {
+        console.error('Erro ao buscar unidades:', err);
+
+        resp.status(500).send({
+            erro: 'Erro interno ao buscar unidades.'
+        });
+    }
+});
+
 endpoints.get('/ofertas', async (req, resp) => {
     try {
         const pesquisa = req.query;

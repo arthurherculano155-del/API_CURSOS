@@ -27,6 +27,12 @@ export async function getUnidadesService(regiao) {
     return response;
 }
 
+export async function getTodasUnidadesService() {
+    const response = await DBCursos.getTodasUnidades();
+
+    return response;
+}
+
 export async function getOfertasService(regiao) {
     const response = await DBCursos.getOfertas(regiao);
 
